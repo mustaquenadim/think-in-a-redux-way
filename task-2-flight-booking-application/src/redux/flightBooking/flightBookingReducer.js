@@ -1,32 +1,27 @@
 import { CREATE_FLIGHT_BOOKING, REMOVE_FLIGHT_BOOKING } from './actionTypes';
 
 const initialState = {
-	destinationFrom: '',
-	destinationTo: '',
-	journeyDate: '',
-	guests: 1,
-	ticketClass: '',
+	flightBookingList: [],
 };
 
 export const flightBookingReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case CREATE_FLIGHT_BOOKING:
-			return {
-				...state,
-				destinationFrom: action.payload.destinationFrom,
-				destinationTo: action.payload.destinationTo,
-				journeyDate: action.payload.journeyDate,
-				guests: action.payload.guests,
-				ticketClass: action.payload.flightClass,
-			};
+			if (state.flightBookingList.length <= 2) {
+				return {
+					...state,
+					flightBookingList: [
+						...state.flightBookingList,
+						{ id: state.flightBookingList.length + 1, ...action.payload },
+					],
+				};
+			}
 		case REMOVE_FLIGHT_BOOKING:
 			return {
 				...state,
-				destinationFrom: '',
-				destinationTo: '',
-				journeyDate: '',
-				guests: 1,
-				ticketClass: '',
+				flightBookingList: state.flightBookingList.filter(
+					(flightBooking) => flightBooking.id !== action.payload.id
+				),
 			};
 		default:
 			return state;

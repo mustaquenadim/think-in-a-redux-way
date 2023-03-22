@@ -3,12 +3,15 @@ import './App.css';
 import Header from './components/Header';
 import BookingDetails from './components/BookingDetails';
 import FlightBookingForm from './components/FlightBookingForm';
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import { useSelector } from 'react-redux';
 
 function App() {
+	const flightBookingList = useSelector(
+		(state) => state.flightBooking.flightBookingList
+	);
+
 	return (
-		<Provider store={store}>
+		<>
 			<Header />
 
 			<section>
@@ -35,14 +38,18 @@ function App() {
 							className="divide-y divide-gray-300/20"
 							id="lws-previewBooked"
 						>
-							<BookingDetails />
-							<BookingDetails />
-							<BookingDetails />
+							{flightBookingList &&
+								flightBookingList?.map((flightBooking) => (
+									<BookingDetails
+										key={flightBooking.id}
+										flightBooking={flightBooking}
+									/>
+								))}
 						</tbody>
 					</table>
 				</div>
 			</section>
-		</Provider>
+		</>
 	);
 }
 

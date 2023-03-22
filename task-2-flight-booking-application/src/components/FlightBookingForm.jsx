@@ -17,6 +17,15 @@ const FlightBookingForm = () => {
 	const handleFlightSubmit = (e) => {
 		e.preventDefault();
 
+		if (
+			!destinationFrom ||
+			!destinationTo ||
+			!journeyDate ||
+			!guests ||
+			!ticketClass
+		)
+			return alert('Please fill all the fields');
+
 		const data = {
 			destinationFrom,
 			destinationTo,
